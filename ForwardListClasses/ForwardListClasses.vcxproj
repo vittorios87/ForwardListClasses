@@ -115,6 +115,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="SinglyLinkedList.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="main.cpp">
+      <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Cdecl</CallingConvention>
+      <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Cdecl</CallingConvention>
+    </ClCompile>
+    <ClCompile Include="SinglyLinkedList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
