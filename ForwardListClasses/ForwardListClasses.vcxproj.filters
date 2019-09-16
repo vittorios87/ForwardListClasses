@@ -21,6 +21,9 @@
     <ClInclude Include="SinglyLinkedList.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="SLwVectorList.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Node.cpp">
@@ -30,6 +33,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="SLwVectorList.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>

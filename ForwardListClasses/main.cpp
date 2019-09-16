@@ -2,6 +2,8 @@
 #include "Node.cpp"
 #include "SinglyLinkedList.h"
 #include "SinglyLinkedList.cpp"
+#include "SLwVectorList.h"
+#include "SLwVectorList.cpp"
 #include <forward_list>
 
 using namespace std;
@@ -27,12 +29,23 @@ int main()
 	mySLList1->printList();
 	cout << endl;
 
+	cout << "Test class operator new[] of Node class" << endl;
+	Node<char>* charNodeArray = new Node<char>[6];
+	cout << charNodeArray[2]._data << endl;
+	charNodeArray[2]._data = 'B';
+	cout << charNodeArray[2]._data << endl;
+	cout << charNodeArray[0]._data << endl;
+	delete[] charNodeArray;
+	cout << endl;
+
+
 	cout << "Test copy constructor" << endl;
 	SinglyLinkedList<char> mySLList2 = *mySLList1;
 	mySLList2.printList();
 	cout << endl;
 
 	cout << "Test move constructor" << endl;
+	cout << "address of list passed to move constructor: " << mySLList1 << endl;
 	SinglyLinkedList<char> mySLList3 = std::move(*mySLList1);
 	mySLList3.printList();
 	cout << endl;
@@ -180,6 +193,138 @@ int main()
 	mySLList5.erase_after(++(++mySLList5.begin()),nullptr);
 	mySLList5.printList();
 	cout << endl;
+
+	cout << "TESTS OF THE VECTOR BASED SINGLY LINKED LIST" << endl << endl;
+
+	cout << "CONSTRUCTORS" << endl;
+	cout << endl;
+
+	cout << "empty constructor" << endl;
+	SLwVectorList<char>* mySLwVList1 = new SLwVectorList<char>();
+	mySLwVList1->printList();
+	mySLwVList1->appendNode(charNode1);
+	mySLwVList1->appendNode(charNode2);
+	mySLwVList1->printList();
+	cout << endl;
+
+	cout << "size constructor" << endl;
+	SLwVectorList<char>* mySLwVList2 = new SLwVectorList<char>(4);
+	mySLwVList2->printList();
+
+	cout << endl;
+
+	cout << "size  and value constructor and 'clear' method" << endl;
+	SLwVectorList<char>* mySLwVList3 = new SLwVectorList<char>(3, 'g');
+	mySLwVList3->printList();
+	mySLwVList3->clear();
+	mySLwVList3->printList();
+	cout << endl;
+
+	cout << " 'by node' constructor (in this case the given node and the following ones (if there are) are copied" << endl;
+	cout << "it is a little bit different version (with respect to the other one) because it involves a copy operation" << endl;
+	
+	SLwVectorList<char>* mySLwVList4 = new SLwVectorList<char>(charNode1);
+	mySLwVList4->printList();
+	cout << endl;
+
+	cout << "TEST of prependNode method, begin method, updateNode, and iterators" << endl;
+	mySLwVList4->prependNode(charNode2);
+	mySLwVList4->printList();
+	SLwVectorList<char>::iterator_t myIt = mySLwVList4->begin();
+	++myIt;
+	mySLwVList4->updateNode(myIt, 'D');
+	mySLwVList4->printList();
+	cout << endl;
+
+
+	cout << "Test push_front and pop_front on the same list." << endl;
+	char myChar = 'b';
+	mySLwVList4->push_front(myChar);
+	mySLwVList4->printList();
+
+	mySLwVList4->pop_front();
+	mySLwVList4->pop_front();
+	mySLwVList4->printList();
+
+	myIt = mySLwVList4->begin();
+
+	mySLwVList4->push_front('a');
+	mySLwVList4->printList();
+
+
+
+	cout << "Test insert_after methods" << endl;
+
+	myIt = mySLwVList4->begin();
+	
+	++myIt; ++myIt;
+	SLwVectorList<char>::iterator_t myIt2 = mySLwVList4->insert_after(myIt, '.');
+	myChar = 'D';
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin(), myChar);
+	mySLwVList4->printList();
+	myIt2 = mySLwVList4->insert_after(--mySLwVList4->end(), myChar);
+	mySLwVList4->printList();
+	myIt2 = mySLwVList4->insert_after(--mySLwVList4->end(),4, 'R');
+	mySLwVList4->printList();
+	cout << endl;
+
+	cout << "Test erase_after methods" << endl;
+	myIt2 = mySLwVList4->erase_after(++mySLwVList4->begin());
+	mySLwVList4->printList();
+
+	myIt2 = mySLwVList4->end()-5;
+	myIt = mySLwVList4->end() -7;
+	myIt2 = mySLwVList4->erase_after(myIt, myIt2);
+	mySLwVList4->printList();
+
+	myIt2 = mySLwVList4->end() - 7;
+	myIt = mySLwVList4->end() - 9;
+	myIt2 = mySLwVList4->erase_after(myIt, myIt2);
+	mySLwVList4->printList();
+
+
+	myIt2 = mySLwVList4->end();
+	myIt = myIt2 - 5;
+	myIt2 -= 7;
+	myIt2 = mySLwVList4->erase_after(myIt,myIt2);
+	mySLwVList4->printList();
+
+	cout << "Test remove and remove_if" << endl;
+	mySLwVList4->remove('D');
+	mySLwVList4->remove('a');
+	mySLwVList4->printList();
+
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin(), '1');
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin()+2, '2');
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin() + 4, '3');
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin() + 5, '4');
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin() + 6, '5');
+	myIt2 = mySLwVList4->insert_after(mySLwVList4->begin() + 7, '6');
+
+	mySLwVList4->printList();
+
+	mySLwVList4->remove_if(islower);
+	mySLwVList4->printList();
+
+	mySLwVList4->reverse();
+	mySLwVList4->printList();
+
+	mySLwVList4->remove_if(isdigit);
+	mySLwVList4->printList();
+
+
+
+
+
+
+	cout << endl;
+
+
+
+
+
+
+
 
 
 

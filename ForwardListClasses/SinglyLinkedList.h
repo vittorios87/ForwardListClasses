@@ -11,6 +11,10 @@ public:
 	using Node_type = Node<T_type>;
 	using Node_type_ptr = Node_type * ;
 
+	//using allocator_type = std::allocator<T_type>;
+	//using pointer = std::allocator_traits<allocator_type>::pointer;
+	//using const_pointer = std::allocator_traits<allocator_type>::const_pointer;
+
 	class Iterator
 	{
 	public:
@@ -51,9 +55,14 @@ public:
 	using iterator_t = Iterator;
 	using const_iterator_t = const Iterator;
 
+	using allocator_t = std::allocator<Node_type>;
+	allocator_t myallocator = allocator_t();
+
 public:
 	Node_type_ptr head;
-	//Node_type_ptr tail;
+
+	//allocator_type alloc = std::allocator<Node_type>();
+
 	explicit SinglyLinkedList();
 	explicit SinglyLinkedList(size_t);
 	explicit SinglyLinkedList(size_t, const T_type&);
@@ -85,7 +94,7 @@ public:
 
 	void appendNode(Node_type_ptr);
 	void prependNode(Node_type_ptr);
-	void updateNode(iterator_t, const T_type&);
+	void updateNode(iterator_t, const T_type&);	
 	void printList();
 };
 

@@ -10,6 +10,22 @@ template<class T> SinglyLinkedList<T>::SinglyLinkedList()
 
 //LIST OF GIVEN LENGTH WITH EMPTY SLOTS CONSTRUCTOR
 template<class T> SinglyLinkedList<T>::SinglyLinkedList(size_t sz) {
+	/*
+	head = myallocator.allocate(1);
+	myallocator.construct(head);
+	Node_type_ptr temp = head;
+	Node_type_ptr temp_neXt;
+	size_t count = 1;
+	while (count < sz)
+	{
+		temp_neXt= myallocator.allocate(1);
+		myallocator.construct(temp_neXt);
+		temp->neXt = temp_neXt;
+		temp= temp_neXt;
+		++count;
+	}
+	temp-> neXt = nullptr;
+	*/
 	size_t count=0;
 	head = new Node<T_type>();
 	Node_type_ptr temp=head;
@@ -20,7 +36,7 @@ template<class T> SinglyLinkedList<T>::SinglyLinkedList(size_t sz) {
 		temp = temp->neXt;
 		count++;
 	}
-
+	
 }
 
 //LIST OF GIVEN LENGTH WITH INITIALIZED SLOTS CONSTRUCTOR
@@ -65,6 +81,9 @@ template<class T> SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T
 template<class T> SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList&& SLList)
 {
 	head = SLList.head;
+	SLList.~SinglyLinkedList();
+	//delete &SLList;
+	std::cout <<"address of rvalue ref: "<< &SLList << std::endl;
 	std::cout << "Move constructor called." << std::endl;
 }
 
@@ -209,7 +228,7 @@ template<class T> void SinglyLinkedList<T>::updateNode(iterator_t position, cons
 	Node_type_ptr temp = head;
 	while (temp != nullptr)
 	{
-		if (temp == &(*position))
+		if (temp == position)
 		{
 			toUpdate = temp;
 			break;
@@ -425,4 +444,5 @@ template<class T> typename SinglyLinkedList<T>::iterator_t SinglyLinkedList<T>::
 
 template<class T> SinglyLinkedList<T>::~SinglyLinkedList()
 {
+	std::cout << "Singly Linked List destructor called" << std::endl;
 }
